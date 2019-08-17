@@ -15,10 +15,10 @@ public class UserInfo : MonoBehaviour
     static GameObject WeightText;
     static GameObject DrinkText;
 
-    static GameObject pohon1;
-    static GameObject pohon2;
-    static GameObject pohon3;
-    static GameObject pohon4;
+    static GameObject tree1;
+    static GameObject tree2;
+    static GameObject tree3;
+    static GameObject tree4;
 
 
     // Start is called before the first frame update
@@ -47,10 +47,10 @@ public class UserInfo : MonoBehaviour
         UpdateInfo();
 
         //Tree object
-        pohon1 = GameObject.Find("pohon1");
-        pohon2 = GameObject.Find("pohon2");
-        pohon3 = GameObject.Find("pohon3");
-        pohon4 = GameObject.Find("pohon4");
+        tree1 = GameObject.Find("樹01");
+        tree2 = GameObject.Find("樹02");
+        tree3 = GameObject.Find("樹03");
+        tree4 = GameObject.Find("樹04");
 
         SetARTree();
     }
@@ -166,32 +166,32 @@ public class UserInfo : MonoBehaviour
 
         if (user_blood < 0.3)
         {
-            pohon1.SetActive(true);
-            pohon2.SetActive(false);
-            pohon3.SetActive(false);
-            pohon4.SetActive(false);
+            tree1.SetActive(true);
+            tree2.SetActive(false);
+            tree3.SetActive(false);
+            tree4.SetActive(false);
 
         }
         else if(user_blood < 0.5)
         {
-            pohon1.SetActive(false);
-            pohon2.SetActive(true);
-            pohon3.SetActive(false);
-            pohon4.SetActive(false);
+            tree1.SetActive(false);
+            tree2.SetActive(true);
+            tree3.SetActive(false);
+            tree4.SetActive(false);
         }
         else if(user_blood < 0.9)
         {
-            pohon1.SetActive(false);
-            pohon2.SetActive(false);
-            pohon3.SetActive(true);
-            pohon4.SetActive(false);
+            tree1.SetActive(false);
+            tree2.SetActive(false);
+            tree3.SetActive(true);
+            tree4.SetActive(false);
         }
         else
         {
-            pohon1.SetActive(false);
-            pohon2.SetActive(false);
-            pohon3.SetActive(false);
-            pohon4.SetActive(true);
+            tree1.SetActive(false);
+            tree2.SetActive(false);
+            tree3.SetActive(false);
+            tree4.SetActive(true);
         }
     }
 }

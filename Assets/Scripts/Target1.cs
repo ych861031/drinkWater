@@ -72,9 +72,10 @@ namespace Vuforia
         private void OnTrackingFound()
         {
             print("bottle target found");
-            
+
             image.enabled = false;
             btn.SetActive(true);
+            //targetStatus.Target1_found = true;
         }
 
                
@@ -84,6 +85,8 @@ namespace Vuforia
 
             image.enabled = true;
             btn.SetActive(false);
+            //targetStatus.Target1_found = false;
+
         }
 
         #endregion // PRIVATE_METHODS
