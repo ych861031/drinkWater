@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 public class NotificationTest : MonoBehaviour
 {
+    Button btn;
+    void Start()
+    {
+        print("nofication start");
+        btn = GameObject.Find("AlarmButton").GetComponent<Button>();
+        btn.onClick.AddListener(OneTimeWithActions);
+    }
+
     void Awake()
     {
         LocalNotification.ClearNotifications();
