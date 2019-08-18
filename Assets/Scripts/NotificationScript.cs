@@ -2,15 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+
 namespace Assets.SimpleAndroidNotifications
 {
     public class NotificationScript : MonoBehaviour
     {
+        Button btn;
+        void Start()
+        {
+            print("nofication start");
+            btn = GameObject.Find("AlarmButton").GetComponent<Button>();
+            btn.onClick.AddListener(SendNotification);
+        }
+
+
         public void SendNotification()
         {
+            print("喝水通知");
             NotificationManager.Send(TimeSpan.FromSeconds(2),
-                "Notification",
-                "Ring!Ring!Ring!",
+                "喝水通知",
+                "設定的喝水時間到了~記得喝水唷~",
                 Color.white);
         }
 

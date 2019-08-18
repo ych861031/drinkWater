@@ -21,6 +21,7 @@ public class alarmSetting : MonoBehaviour
             print("open alarm");
             check = true;
             btn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/alarm_on");
+            
         }
         else
         {
