@@ -5,6 +5,7 @@ using System.IO;
 using LitJson;
 using System;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class getCount : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class getCount : MonoBehaviour
     public double nowlng;
     public double nowlat;
     public string temp;
+    public double minimum = 10000.0000;
+    public string miniadd;
 
     public Text text;
 
@@ -25,11 +28,24 @@ public class getCount : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        jsonString = File.ReadAllText(Application.dataPath + "/StreamingAssets/out1.json");
+        ReapeTes();
+        InvokeRepeating("ReapeTes", 1.0f,2.0f);
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    ///公尺
+    ///
+    public void ReapeTes()
+    {
+        jsonString = File.ReadAllText(Application.dataPath + "/StreamingAssets/out1.json");
+        minimum = 10000.0000;
         gpsdata = JsonMapper.ToObject(jsonString);
         //逢甲資電門口GPS  24.179015 120.649675
-        nowlat = 24.179015;
+        nowlat = 24.0179015;
         nowlng = 120.649675;
 
         for (int i = 0; i < 495; i++)
@@ -49,24 +65,22 @@ public class getCount : MonoBehaviour
             }
 
             //print(GetDistance(nowlat, nowlng, lat, lng));
-            if (GetDistance(nowlat, nowlng, lat, lng) < 200)
+            if (GetDistance(nowlat, nowlng, lat, lng) < minimum)
             {
                 print((string)gpsdata["ROOT"]["RECORD"][i]["機關單位"]);
+                minimum = GetDistance(nowlat, nowlng, lat, lng);
+                miniadd = (string)gpsdata["ROOT"]["RECORD"][i]["機關單位"];
                 //print(GetDistance(nowlat, nowlng, lat, lng));
-                temp += (string)gpsdata["ROOT"]["RECORD"][i]["機關單位"]+'\n';
-                text.text = temp;
+                //temp += (string)gpsdata["ROOT"]["RECORD"][i]["機關單位"]+'\n';
+                
             }
             //print(i);
         }
-    
-}
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        temp = miniadd + '\n';
+        temp += "距離";
+        temp += System.Math.Round(minimum,4) + "公尺";
+        text.text = temp;
     }
-    ///公尺
     public static double GetDistance(double lat1, double lng1, double lat2, double lng2)
     {
         double radLat1 = Rad(lat1);
