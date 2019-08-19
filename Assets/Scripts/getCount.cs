@@ -18,6 +18,9 @@ public class getCount : MonoBehaviour
     public double nowlng;
     public double nowlat;
     public string temp;
+
+    string GetGps = "";
+
     public double minimum = 10000.0000;
     public string miniadd;
 
@@ -29,7 +32,7 @@ public class getCount : MonoBehaviour
     void Start()
     {
         ReapeTes();
-        InvokeRepeating("ReapeTes", 1.0f,2.0f);
+        InvokeRepeating("ReapeTes", 1.0f,5.0f);
     }
 
     // Update is called once per frame
@@ -41,12 +44,30 @@ public class getCount : MonoBehaviour
     ///
     public void ReapeTes()
     {
+
         jsonString = File.ReadAllText(Application.dataPath + "/StreamingAssets/out1.json");
         minimum = 10000.0000;
         gpsdata = JsonMapper.ToObject(jsonString);
+
+        StartCoroutine(StartGPS());
         //逢甲資電門口GPS  24.179015 120.649675
-        nowlat = 24.0179015;
+        nowlat = 24.179015;
         nowlng = 120.649675;
+
+        print(Input.location.lastData.latitude);
+        double latem = Input.location.lastData.latitude;
+        double lntem = Input.location.lastData.longitude;
+        if (latem == 0 | lntem ==0)
+        {
+            nowlat = 24.179015;
+            nowlng = 120.649675;
+        }
+        else
+        {
+            nowlat = latem;
+            nowlng = lntem;
+        }
+
 
         for (int i = 0; i < 495; i++)
         {
@@ -101,5 +122,45 @@ public class getCount : MonoBehaviour
     private static double Rad(double d)
     {
         return (double)d * Math.PI / 180d;
+    }
+
+    IEnumerator StartGPS()
+    {
+        // Input.location 用于访问设备的位置属性（手持设备）, 静态的LocationService位置  
+        // LocationService.isEnabledByUser 用户设置里的定位服务是否启用  
+        if (!Input.location.isEnabledByUser)
+        {
+            GetGps = "isEnabledByUser value is:" + Input.location.isEnabledByUser.ToString() + " Please turn on the GPS";
+            yield return false;
+        }
+
+        // LocationService.Start() 启动位置服务的更新,最后一个位置坐标会被使用  
+        Input.location.Start(10.0f, 10.0f);
+
+        int maxWait = 20;
+        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
+        {
+            // 暂停协同程序的执行(1秒)  
+            yield return new WaitForSeconds(1);
+            maxWait--;
+        }
+
+        if (maxWait < 1)
+        {
+            GetGps = "Init GPS service time out";
+            yield return false;
+        }
+
+        if (Input.location.status == LocationServiceStatus.Failed)
+        {
+            GetGps = "Unable to determine device location";
+            yield return false;
+        }
+        else
+        {
+            GetGps = "N:" + Input.location.lastData.latitude + " E:" + Input.location.lastData.longitude;
+            GetGps = GetGps + " Time:" + Input.location.lastData.timestamp;
+            yield return new WaitForSeconds(1);
+        }
     }
 }
