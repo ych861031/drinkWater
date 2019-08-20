@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 public class getCount : MonoBehaviour
 {
-    private string jsonString;
+    private string url;
     private JsonData gpsdata;
     public string gps1;
     public string[] gps2;
@@ -29,8 +29,13 @@ public class getCount : MonoBehaviour
     private const double EARTH_RADIUS = 6378137;
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        url = "http://140.134.26.3:8889/out1";
+        print("d++++++++++_________");
+        WWW www = new WWW(url);
+        yield return www;
+        gpsdata = JsonMapper.ToObject<JsonData>(www.text);
         ReapeTes();
         InvokeRepeating("ReapeTes", 1.0f,5.0f);
     }
@@ -45,9 +50,9 @@ public class getCount : MonoBehaviour
     public void ReapeTes()
     {
 
-        jsonString = File.ReadAllText(Application.dataPath + "/StreamingAssets/out1.json");
+        //jsonString = File.ReadAllText(Application.dataPath + "/StreamingAssets/out1.json");
         minimum = 10000.0000;
-        gpsdata = JsonMapper.ToObject(jsonString);
+        //gpsdata = JsonMapper.ToObject(jsonString);
 
         StartCoroutine(StartGPS());
         //逢甲資電門口GPS  24.179015 120.649675
@@ -122,6 +127,18 @@ public class getCount : MonoBehaviour
     private static double Rad(double d)
     {
         return (double)d * Math.PI / 180d;
+    }
+
+    IEnumerable wwwgetgps()
+    {
+        WWW www = new WWW("http://140.134.26.3:8889/out1");
+
+        yield return www;
+
+        JsonData jsonData2 = JsonMapper.ToObject<JsonData>(www.text);
+
+        print(www.text);
+        
     }
 
     IEnumerator StartGPS()
