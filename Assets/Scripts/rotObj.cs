@@ -30,11 +30,15 @@ public class rotObj : MonoBehaviour
 
     void Up()
     {
-        CanObj.transform.Rotate(0, 0, 70,Space.Self);
+        //CanObj.transform.Rotate(0, 0, 70,Space.Self);
+        CanObj.transform.rotation = Quaternion.Euler(-90f, -90f, -90f);
+
     }
 
     void Down()
     {
-        CanObj.transform.Rotate(0, 0, -70,Space.Self);
+        //CanObj.transform.Rotate(0, 0, -70,Space.Self);
+        CanObj.transform.rotation = Quaternion.Euler(-55f, -90f, -90f);
+
     }
 }

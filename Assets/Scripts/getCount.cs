@@ -6,6 +6,7 @@ using LitJson;
 using System;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Android;
 
 public class getCount : MonoBehaviour
 {
@@ -59,7 +60,7 @@ public class getCount : MonoBehaviour
         nowlat = 24.179015;
         nowlng = 120.649675;
 
-        print(Input.location.lastData.latitude);
+        //print(Input.location.lastData.latitude);
         double latem = Input.location.lastData.latitude;
         double lntem = Input.location.lastData.longitude;
         if (latem == 0 | lntem ==0)
@@ -86,14 +87,14 @@ public class getCount : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
                 continue;
             }
 
             //print(GetDistance(nowlat, nowlng, lat, lng));
             if (GetDistance(nowlat, nowlng, lat, lng) < minimum)
             {
-                print((string)gpsdata["ROOT"]["RECORD"][i]["機關單位"]);
+                //print((string)gpsdata["ROOT"]["RECORD"][i]["機關單位"]);
                 minimum = GetDistance(nowlat, nowlng, lat, lng);
                 miniadd = (string)gpsdata["ROOT"]["RECORD"][i]["機關單位"];
                 //print(GetDistance(nowlat, nowlng, lat, lng));
@@ -137,7 +138,7 @@ public class getCount : MonoBehaviour
 
         JsonData jsonData2 = JsonMapper.ToObject<JsonData>(www.text);
 
-        print(www.text);
+        //print(www.text);
         
     }
 
@@ -147,6 +148,8 @@ public class getCount : MonoBehaviour
         // LocationService.isEnabledByUser 用户设置里的定位服务是否启用  
         if (!Input.location.isEnabledByUser)
         {
+            Permission.RequestUserPermission(Permission.FineLocation);
+            Input.location.Start();
             GetGps = "isEnabledByUser value is:" + Input.location.isEnabledByUser.ToString() + " Please turn on the GPS";
             yield return false;
         }

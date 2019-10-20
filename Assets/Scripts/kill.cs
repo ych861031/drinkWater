@@ -13,10 +13,10 @@ public class kill : MonoBehaviour
 
     void check()
     {
-        if(this.transform.localPosition.y < -100)
+        if(this.gameObject.transform.localPosition.y < -10)
         {
             print("kill");
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }
