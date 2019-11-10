@@ -74,8 +74,21 @@ namespace Vuforia
             print("bottle target found");
 
             image.enabled = false;
-            btn.SetActive(true);
+            //btn.SetActive(true);
             //targetStatus.Target1_found = true;
+
+
+
+            InvokeRepeating("check",0,1);
+        }
+
+        void check(){
+            print("check");
+            bool c = getTime.checkShow();
+            if (c)
+            {
+                btn.SetActive(true);
+            }
         }
 
                
@@ -86,6 +99,8 @@ namespace Vuforia
             image.enabled = true;
             btn.SetActive(false);
             //targetStatus.Target1_found = false;
+
+            CancelInvoke();
 
         }
 

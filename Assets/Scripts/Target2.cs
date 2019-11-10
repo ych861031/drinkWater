@@ -70,6 +70,13 @@ namespace Vuforia
             print("飲水機 target found");
             CanOBJ.SetActive(true);
             //targetStatus.Target2_found = true;
+            if (getTime.checkShowDrinkingFountain())
+            {
+                print("in");
+                getTime.setTimeDrinkingFountain();
+                UserInfo.SetDrinkingFountain();
+
+            }
         }
 
                

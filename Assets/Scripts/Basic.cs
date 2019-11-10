@@ -33,6 +33,11 @@ public class Basic : MonoBehaviour
 
         SetHomeBloodStripText();
         SetHomeBloodStrip();
+
+        bloodstrip2.SetHomeBloodStrip();
+        UpdateHomeBar2Text();
+        
+
     }
 
     void CloseCanvas()
@@ -71,5 +76,13 @@ public class Basic : MonoBehaviour
     public static void SetHomeBloodStrip()
     {
         bloodstrip.SetHomeBloodStrip();
+    }
+
+    public static void SetHomeBloodStrip2(){
+        bloodstrip2.SetHomeBloodStrip();
+    }
+
+    public static void UpdateHomeBar2Text(){
+        GameObject.Find("HomeStripStatus2").GetComponent<Text>().text = UserInfo.GetDrinkingFountainStr();
     }
 }

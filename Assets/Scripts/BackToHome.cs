@@ -24,6 +24,8 @@ public class BackToHome : MonoBehaviour
         Basic.SetHomeBloodStripText();
         Basic.SetHomeBloodStrip();
 
+        Basic.SetHomeBloodStrip2();
+        Basic.UpdateHomeBar2Text();
         //update calender
         CalendarSetting.SetCalender(DateTime.Now.Year,DateTime.Now.Month);
     }

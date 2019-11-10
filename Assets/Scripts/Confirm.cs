@@ -17,6 +17,10 @@ public class Confirm : MonoBehaviour
     {
         UserInfo.AddDrinkScore();
         UserInfo.SetARTree();
+
+        getTime.setTime();
+
+        GameObject.Find("ConfirmButton").SetActive(false);
     }
 
    

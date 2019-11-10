@@ -14,6 +14,9 @@ public class UserInfo : MonoBehaviour
     static GameObject DrinkPlaceholder;
     static GameObject WeightText;
     static GameObject DrinkText;
+    static GameObject BottleText;
+    static GameObject BottlePlaceholder;
+
 
     static GameObject tree1;
     static GameObject tree2;
@@ -28,10 +31,14 @@ public class UserInfo : MonoBehaviour
         DrinkPlaceholder = GameObject.Find("DrinkPlaceholder");
         WeightText = GameObject.Find("WeightInputField");
         DrinkText = GameObject.Find("DrinkInputField");
+
+        BottleText = GameObject.Find("BottleInputField");
+        BottlePlaceholder = GameObject.Find("BottlePlaceholder");
+
         var date = GetDate();
 
         //測試時重設數據用
-        PlayerPrefs.SetInt(date + "DrinkScore", 0);
+        //PlayerPrefs.SetInt(date + "DrinkScore", 0);
 
         //default calendaer use image level
         PlayerPrefs.SetInt("201981" + "DrinkScoreLevel", 2);
@@ -60,8 +67,10 @@ public class UserInfo : MonoBehaviour
         print("set");
         var weightText = WeightText.GetComponent<InputField>().text;
         var drinkText = DrinkText.GetComponent<InputField>().text;
+        var bottleText = BottleText.GetComponent<InputField>().text;
         print(weightText);
         print(drinkText);
+        print(bottleText);
 
         if(weightText != "")
         {
@@ -71,6 +80,10 @@ public class UserInfo : MonoBehaviour
         if (drinkText != "")
         {
             PlayerPrefs.SetInt("playerDrink", int.Parse(drinkText));
+        }
+
+        if(bottleText != ""){
+            PlayerPrefs.SetInt("playerBottle", int.Parse(bottleText));
         }
         
     }
@@ -93,9 +106,13 @@ public class UserInfo : MonoBehaviour
 
         DrinkPlaceholder.GetComponent<Text>().text = drink.ToString() + "cc";
 
+        BottlePlaceholder.GetComponent<Text>().text = PlayerPrefs.GetInt("playerBottle", 400).ToString() + "cc";
+
         //Clear input text
         WeightText.GetComponent<InputField>().text = "";
         DrinkText.GetComponent<InputField>().text = "";
+        BottleText.GetComponent<InputField>().text = "";
+
     }
 
     public static float GetTotalDrink()
@@ -151,6 +168,7 @@ public class UserInfo : MonoBehaviour
 
         Basic.SetARBloodStripText();
         bloodstrip.SetBloodStrip();
+
     }
 
     void SetTodayScore()
@@ -163,6 +181,7 @@ public class UserInfo : MonoBehaviour
         var t = GetTotalDrink();
         var s = GetDrinkScore();
         var user_blood = s / t;
+        var temp = 0;
 
         if (user_blood < 0.3)
         {
@@ -170,6 +189,7 @@ public class UserInfo : MonoBehaviour
             tree2.SetActive(false);
             tree3.SetActive(false);
             tree4.SetActive(false);
+            temp = 1;
 
         }
         else if(user_blood < 0.5)
@@ -178,6 +198,8 @@ public class UserInfo : MonoBehaviour
             tree2.SetActive(true);
             tree3.SetActive(false);
             tree4.SetActive(false);
+            temp = 2;
+
         }
         else if(user_blood < 0.9)
         {
@@ -185,6 +207,7 @@ public class UserInfo : MonoBehaviour
             tree2.SetActive(false);
             tree3.SetActive(true);
             tree4.SetActive(false);
+            temp = 3;
         }
         else
         {
@@ -192,6 +215,62 @@ public class UserInfo : MonoBehaviour
             tree2.SetActive(false);
             tree3.SetActive(false);
             tree4.SetActive(true);
+            temp = 4;
         }
+
+
+        var time = getTime.count();
+        float test = 0;
+        if (time >= 1800){
+            test = (float)(time / 1800);
+            if(test>=2){
+                tree1.SetActive(true);
+                tree2.SetActive(false);
+                tree3.SetActive(false);
+                tree4.SetActive(false);
+            }
+            else if(test>=3){
+                tree1.SetActive(false);
+                tree2.SetActive(true);
+                tree3.SetActive(false);
+                tree4.SetActive(false);
+
+            }
+            else{
+                tree1.SetActive(false);
+                tree2.SetActive(false);
+                tree3.SetActive(true);
+                tree4.SetActive(false);
+            }
+        }
+
+    }
+
+    public static void SetDrinkingFountain(){
+        print("set drink fountain");
+        var date = GetDate();
+        var addScore = PlayerPrefs.GetInt("playerBottle", 400);
+
+        var score = PlayerPrefs.GetInt(date + "DrinkingFountain", 0);
+        PlayerPrefs.SetInt(date + "DrinkingFountain", score + addScore);
+
+        print(PlayerPrefs.GetInt(date + "DrinkingFountain", 0));
+    }
+
+    public static int GetDrinkingFountain()
+    {
+        var date = GetDate();
+
+
+        return PlayerPrefs.GetInt(date + "DrinkingFountain", 0);
+    }
+
+    public static string GetDrinkingFountainStr()
+    {
+        var date = GetDate();
+        var score = PlayerPrefs.GetInt(date + "DrinkingFountain", 0);
+        string str = score.ToString() + "/" + GetTotalDrink().ToString();
+
+        return str;
     }
 }
